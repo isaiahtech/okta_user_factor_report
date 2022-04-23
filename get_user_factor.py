@@ -72,16 +72,19 @@ with open(filename, 'w', newline='') as csvfile:
     factors_out = response.json()
     factorList = []
 
-    for s in range(len(factors_out)):
-      if factors_out[s]["factorType"]:
-        if factors_out[s]["factorType"] == 'push':
-          factorList.append("Okta Verify Push")
-        elif factors_out[s]["provider"] == 'OKTA' and factors_out[s]["factorType"] == 'token:software:totp':
-          factorList.append("Okta Verify")
-        elif factors_out[s]["provider"] == 'GOOGLE' and factors_out[s]["factorType"] == 'token:software:totp':
-          factorList.append("Google Authenticator")
-        else:
-          factorList.append(factors_out[s]["factorType"])
+    if len(factors_out) == 0:
+      factorList.append("None")
+    else:
+      for s in range(len(factors_out)):
+        if factors_out[s]["factorType"]:
+          if factors_out[s]["factorType"] == 'push':
+            factorList.append("Okta Verify Push")
+          elif factors_out[s]["provider"] == 'OKTA' and factors_out[s]["factorType"] == 'token:software:totp':
+            factorList.append("Okta Verify")
+          elif factors_out[s]["provider"] == 'GOOGLE' and factors_out[s]["factorType"] == 'token:software:totp':
+            factorList.append("Google Authenticator")
+          else:
+            factorList.append(factors_out[s]["factorType"])
     row = nameList[c],loginList[c],uidList[c],factorList
     csvwriter.writerow(row)
     c += 1
