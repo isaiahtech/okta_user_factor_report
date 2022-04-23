@@ -77,12 +77,31 @@ with open(filename, 'w', newline='') as csvfile:
     else:
       for s in range(len(factors_out)):
         if factors_out[s]["factorType"]:
-          if factors_out[s]["factorType"] == 'push':
-            factorList.append("Okta Verify Push")
-          elif factors_out[s]["provider"] == 'OKTA' and factors_out[s]["factorType"] == 'token:software:totp':
-            factorList.append("Okta Verify")
+          if factors_out[s]["provider"] == 'OKTA':
+            if factors_out[s]["factorType"] == 'push':
+              factorList.append("Okta Verify Push")
+            elif factors_out[s]["factorType"] == 'token:software:totp':
+              factorList.append("Okta Verify")
+            elif factors_out[s]["factorType"] == 'email':
+              factorList.append("Email")
+            elif factors_out[s]["factorType"] == 'sms':
+              factorList.append("SMS")
+            elif factors_out[s]["factorType"] == 'call':
+              factorList.append("Call")
+            elif factors_out[s]["factorType"] == 'question':
+              factorList.append("Security Question")
           elif factors_out[s]["provider"] == 'GOOGLE' and factors_out[s]["factorType"] == 'token:software:totp':
             factorList.append("Google Authenticator")
+          elif factors_out[s]["provider"] == 'DUO' and factors_out[s]["factorType"] == 'web':
+            factorList.append("DUO")
+          elif factors_out[s]["provider"] == 'FIDO' and factors_out[s]["factorType"] == 'webauthn':
+            factorList.append("WebAuthn")
+          elif factors_out[s]["provider"] == 'RSA' and factors_out[s]["factorType"] == 'token':
+            factorList.append("RSA Token")
+          elif factors_out[s]["provider"] == 'SYMANTEC' and factors_out[s]["factorType"] == 'token':
+            factorList.append("Symantec Token")
+          elif factors_out[s]["provider"] == 'YUBICO' and factors_out[s]["factorType"] == 'token:hardware':
+            factorList.append("Yubikey")
           else:
             factorList.append(factors_out[s]["factorType"])
     row = nameList[c],loginList[c],uidList[c],factorList
