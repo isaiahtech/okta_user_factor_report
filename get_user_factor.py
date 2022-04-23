@@ -33,6 +33,7 @@ while 'next' in links:
 
 uidList = []
 loginList = []
+nameList = []
 
 for s in range(len(users)):
   if users[s]["id"]:
@@ -44,7 +45,15 @@ for s in range(len(users)):
     login = users[s]["profile"]["login"]
     loginList.append(login)
 
-fields = ['Username', 'UserId', 'Factors']
+for s in range(len(users)):
+  if users[s]["profile"]["firstName"]:
+    first = users[s]["profile"]["firstName"]
+  if users[s]["profile"]["lastName"]:
+    last = users[s]["profile"]["lastName"]
+  name = first + ' ' + last
+  nameList.append(name)
+
+fields = ['Name', 'Username', 'UserId', 'Factors']
 c = 0
 
 with open(filename, 'w', newline='') as csvfile:
@@ -73,7 +82,7 @@ with open(filename, 'w', newline='') as csvfile:
           factorList.append("Google Authenticator")
         else:
           factorList.append(factors_out[s]["factorType"])
-    row = loginList[c],uidList[c],factorList
+    row = nameList[c],loginList[c],uidList[c],factorList
     csvwriter.writerow(row)
     c += 1
     #time.sleep(0.5)    # <------------------------ This is an optional delay (in seconds). Not needed unless rate limits hit
